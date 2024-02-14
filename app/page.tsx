@@ -2,20 +2,22 @@ import { Button } from "@/components/ui/button";
 import { AnimatedInput } from "@/components/AnimatedInput";
 import { CategorySelect } from "@/components/CategorySelect";
 import { getAgents } from "@/lib/data";
-import AgentCard from "@/components/AgentCard";
+import AgentsGrid from "@/components/AgentsGrid";
 
-export default async function Home() {
+export default async function Home({ searchParams }: { searchParams: any }) {
+    const categorySelected = searchParams?.category || [];
     const agents = await getAgents();
     let categories = new Set<string>();
 
     agents?.map((agent) => {
         categories.add(agent[3]);
     });
+
     return (
         <>
             <header className='flex flex-col items-center mt-16'>
                 <h1 className='text-3xl font-bold'>
-                    Find the perfect AI assistant
+                    Find the perfect AI agent
                 </h1>
                 <p className='mt-1'>10x your workflow and do more.</p>
             </header>
@@ -33,21 +35,19 @@ export default async function Home() {
                             ]}
                         />
                     </div>
-                    <Button type='submit'>Search</Button>
                 </div>
             </main>
 
-            <section className='grid grid-cols-3 gap-10 mt-16 mx-7'>
-                {agents?.map((agent) => (
-                    <AgentCard
-                        key={Math.random()}
-                        name={agent[0]}
-                        category={agent[3]}
-                        description={agent[2]}
-                        website_link={agent[1]}
-                    />
-                ))}
-            </section>
+            {agents && (
+                <AgentsGrid
+                    agents={agents}
+                    categorySelected={
+                        categorySelected.length === 0
+                            ? categorySelected
+                            : categorySelected?.split(",")
+                    }
+                />
+            )}
         </>
     );
 }
