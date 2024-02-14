@@ -15,11 +15,14 @@ import {
 
 type Checked = DropdownMenuCheckboxItemProps["checked"];
 
-export function CategorySelect() {
-    const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true);
-    const [showActivityBar, setShowActivityBar] =
-        React.useState<Checked>(false);
-    const [showPanel, setShowPanel] = React.useState<Checked>(false);
+export function CategorySelect({ categories }: { categories: Set<string> }) {
+    const [checkedItems, setCheckedItems] = React.useState<
+        Record<string, Checked>
+    >({});
+
+    const handleCheckedChange = (category: string) => (checked: Checked) => {
+        setCheckedItems((prev) => ({ ...prev, [category]: checked }));
+    };
 
     return (
         <DropdownMenu>
@@ -29,24 +32,15 @@ export function CategorySelect() {
             <DropdownMenuContent className='w-56'>
                 <DropdownMenuLabel>Agent Categories</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuCheckboxItem
-                    checked={showStatusBar}
-                    onCheckedChange={setShowStatusBar}
-                >
-                    General Purpose
-                </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem
-                    checked={showActivityBar}
-                    onCheckedChange={setShowActivityBar}
-                >
-                    HR
-                </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem
-                    checked={showPanel}
-                    onCheckedChange={setShowPanel}
-                >
-                    Marketing
-                </DropdownMenuCheckboxItem>
+                {[...categories].map((category) => (
+                    <DropdownMenuCheckboxItem
+                        key={category}
+                        checked={checkedItems[category] ?? false}
+                        onCheckedChange={handleCheckedChange(category)}
+                    >
+                        {category}
+                    </DropdownMenuCheckboxItem>
+                ))}
             </DropdownMenuContent>
         </DropdownMenu>
     );

@@ -1,10 +1,16 @@
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AnimatedInput } from "@/components/AnimatedInput";
 import { CategorySelect } from "@/components/CategorySelect";
+import { getAgents } from "@/lib/data";
+import AgentCard from "@/components/AgentCard";
 
-export default function Home() {
+export default async function Home() {
+    const agents = await getAgents();
+    let categories = new Set<string>();
+
+    agents?.map((agent) => {
+        categories.add(agent[3]);
+    });
     return (
         // find the perfect ai assistant/
         // 10x your workflow and do more.
@@ -24,7 +30,7 @@ export default function Home() {
 
             <main className='mt-16'>
                 <div className='flex w-full items-center justify-center space-x-6'>
-                    <CategorySelect />
+                    <CategorySelect categories={categories} />
                     <div className='grid w-full max-w-sm gap-1.5'>
                         <AnimatedInput
                             animatedPlaceholder={[
@@ -38,6 +44,18 @@ export default function Home() {
                     <Button type='submit'>Search</Button>
                 </div>
             </main>
+
+            <section className='grid grid-cols-3 gap-10 mt-16 mx-7'>
+                {agents?.map((agent) => (
+                    <AgentCard
+                        key={Math.random()}
+                        name={agent[0]}
+                        category={agent[3]}
+                        description={agent[2]}
+                        website_link={agent[1]}
+                    />
+                ))}
+            </section>
         </>
     );
 }
