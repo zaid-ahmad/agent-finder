@@ -4,9 +4,8 @@
 import { useState } from "react";
 import { AnimatedInput } from "@/components/AnimatedInput";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
 
-export default function SearchForm() {
+export default function SearchForm({ agents }: { agents: any }) {
     const [searchQuery, setSearchQuery] = useState("");
 
     const handleFormSubmit = async (
@@ -18,12 +17,16 @@ export default function SearchForm() {
         };
         try {
             // Send the input value to the server-side function using Axios
-            await fetch("/api/search", {
+            const response = await fetch("/api/search", {
                 method: "POST",
                 body: JSON.stringify(bodyData),
                 headers: { "Content-Type": "application/json" },
                 cache: "no-store",
             });
+
+            const data = await response.json();
+            console.log(data);
+            agents = response;
         } catch (error) {
             console.error("Error fetching search results:", error);
         }
