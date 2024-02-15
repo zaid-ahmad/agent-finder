@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { getSearchResultAgents } from "@/lib/data";
 
 type AnimatedInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
     animatedPlaceholder: string[];
@@ -16,7 +14,6 @@ export const AnimatedInput = ({
     const [currentPlaceholder, setCurrentPlaceholder] = useState("");
     const [placeholderIndex, setPlaceholderIndex] = useState(0);
     const [charIndex, setCharIndex] = useState(0);
-    const [prompt, setPrompt] = useState<string>("");
 
     useEffect(() => {
         const currentString = passedPlaceholders[placeholderIndex];
@@ -39,21 +36,13 @@ export const AnimatedInput = ({
         };
     }, [placeholderIndex, charIndex, passedPlaceholders]);
 
-    const handleFormSubmit = async () => {
-        await getSearchResultAgents(prompt);
-    };
-
     return (
-        <form onSubmit={handleFormSubmit}>
-            <Input
-                autoComplete='off'
-                onChange={(e) => setPrompt(e.target.value)}
-                id='prompt'
-                placeholder={currentPlaceholder}
-                type='text'
-                {...passedProps}
-            />
-            <Button type='submit'>Search</Button>
-        </form>
+        <Input
+            autoComplete='off'
+            id='prompt'
+            placeholder={currentPlaceholder}
+            type='text'
+            {...passedProps}
+        />
     );
 };

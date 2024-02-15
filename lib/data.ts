@@ -29,5 +29,4 @@ export const getAgents = async (): Promise<string[][] | undefined> => {
 // getting agents based on the search query
 export const getSearchResultAgents = async (prompt: string) => {
     console.log(prompt);
-    console.log("here are the agents lol");
 };

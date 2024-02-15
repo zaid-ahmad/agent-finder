@@ -1,8 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { AnimatedInput } from "@/components/AnimatedInput";
 import { CategorySelect } from "@/components/CategorySelect";
 import { getAgents } from "@/lib/data";
 import AgentsGrid from "@/components/AgentsGrid";
+import SearchForm from "@/components/SearchForm";
 
 export default async function Home({ searchParams }: { searchParams: any }) {
     const categorySelected = searchParams?.category || [];
@@ -12,6 +11,15 @@ export default async function Home({ searchParams }: { searchParams: any }) {
     agents?.map((agent) => {
         categories.add(agent[3]);
     });
+
+    async function handleFormSubmit(event: any) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const searchQuery = formData.get("searchQuery");
+        // Now you can do whatever you want with the searchQuery
+        console.log("Search Query:", searchQuery);
+        // You can also fetch data here and update the state if necessary
+    }
 
     return (
         <>
@@ -25,16 +33,7 @@ export default async function Home({ searchParams }: { searchParams: any }) {
             <main className='mt-16'>
                 <div className='flex w-full items-center justify-center space-x-6'>
                     <CategorySelect categories={categories} />
-                    <div className='grid w-full max-w-sm gap-1.5'>
-                        <AnimatedInput
-                            animatedPlaceholder={[
-                                "ai recruiter",
-                                "autonomous agent platform powered by llm",
-                                "an agent that builds and deploys",
-                                "agent that does a deep research about a topic",
-                            ]}
-                        />
-                    </div>
+                    <SearchForm />
                 </div>
             </main>
 
