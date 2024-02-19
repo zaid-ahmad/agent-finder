@@ -44,12 +44,3 @@ export default async function Home({ searchParams }: { searchParams: any }) {
         </>
     );
 }
-
-// find the perfect ai assistant/
-// 10x your workflow and do more.
-// name, description, need (category), website
-/* --------------------------------------------- */
-// all this can be replaced by integrating a custom gpt to the website that would give the best agent based on the
-// user's need but since I don't have a subscription nor the money to put in to integrate my own custom gpt
-// i can't integrate this feature, yet.
-/* --------------------------------------------- */

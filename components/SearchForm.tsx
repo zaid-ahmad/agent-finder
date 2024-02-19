@@ -22,30 +22,6 @@ export default function SearchForm({ agents }: { agents: any }) {
         [searchParams]
     );
 
-    // const handleFormSubmit = async (
-    //     event: React.FormEvent<HTMLFormElement>
-    // ) => {
-    //     event.preventDefault();
-    //     const bodyData = {
-    //         prompt: searchQuery,
-    //     };
-    //     try {
-    //         // Send the input value to the server-side function using Axios
-    //         const response = await fetch("/api/search", {
-    //             method: "POST",
-    //             body: JSON.stringify(bodyData),
-    //             headers: { "Content-Type": "application/json" },
-    //             cache: "no-store",
-    //         });
-
-    //         const data = await response.json();
-    //         console.log(data);
-    //         agents = response;
-    //     } catch (error) {
-    //         console.error("Error fetching search results:", error);
-    //     }
-    // };
-
     return (
         <div className='flex w-1/2 items-center justify-center space-x-6'>
             <div className='grid gap-1.5 w-full'>

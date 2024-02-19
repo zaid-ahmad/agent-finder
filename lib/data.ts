@@ -1,7 +1,7 @@
 import { google } from "googleapis";
 import Fuse from "fuse.js";
 
-async function getDescriptions() {
+export async function getDescriptions() {
     const auth = await google.auth.getClient({
         scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
     });
@@ -36,7 +36,7 @@ type DataEntry = {
     refIndex: number;
 };
 
-function transformData(data: DataEntry[]): string[][] {
+export function transformData(data: DataEntry[]): string[][] {
     return data
         .filter((entry) => entry.refIndex <= 25) // Filter based on refIndex
         .map((entry) => [
