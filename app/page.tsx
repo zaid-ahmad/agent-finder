@@ -2,10 +2,12 @@ import { CategorySelect } from "@/components/CategorySelect";
 import { getAgents } from "@/lib/data";
 import AgentsGrid from "@/components/AgentsGrid";
 import SearchForm from "@/components/SearchForm";
+import MatchmakeButton from "@/components/MatchmakeButton";
 
 export default async function Home({ searchParams }: { searchParams: any }) {
     const categorySelected = searchParams?.category || [];
-    let agents = await getAgents();
+    const query = searchParams?.query || "";
+    let agents = await getAgents(query);
     let categories = new Set<string>();
 
     agents?.map((agent) => {
@@ -25,6 +27,7 @@ export default async function Home({ searchParams }: { searchParams: any }) {
                 <div className='flex w-full items-center justify-center space-x-6'>
                     <CategorySelect categories={categories} />
                     <SearchForm agents={agents} />
+                    <MatchmakeButton />
                 </div>
             </main>
 
