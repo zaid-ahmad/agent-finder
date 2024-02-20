@@ -2,9 +2,20 @@ import { google } from "googleapis";
 import Fuse from "fuse.js";
 
 export async function getDescriptions() {
-    const auth = await google.auth.getClient({
-        scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
-    });
+    let credentials;
+    if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON) {
+        credentials = JSON.parse(
+            process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON
+        );
+    }
+
+    // Manually create a JWT client for Google Sheets API authentication
+    const auth = new google.auth.JWT(
+        credentials.client_email,
+        undefined,
+        credentials.private_key,
+        ["https://www.googleapis.com/auth/spreadsheets.readonly"]
+    );
 
     const sheets = google.sheets({ version: "v4", auth });
 
@@ -83,9 +94,20 @@ export const getAgents = async (
             return undefined;
         }
     } else {
-        const auth = await google.auth.getClient({
-            scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
-        });
+        let credentials;
+        if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON) {
+            credentials = JSON.parse(
+                process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON
+            );
+        }
+
+        // Manually create a JWT client for Google Sheets API authentication
+        const auth = new google.auth.JWT(
+            credentials.client_email,
+            undefined,
+            credentials.private_key,
+            ["https://www.googleapis.com/auth/spreadsheets.readonly"]
+        );
 
         const sheets = google.sheets({ version: "v4", auth });
 
